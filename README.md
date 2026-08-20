@@ -1,84 +1,84 @@
 # Inventory System — Unity Programming Test
 
-A first-person Unity prototype built for a "Programming Test for Unity Developer": a fully working inventory system where the player can pick up, view, use, and drag-and-drop items in a first-person 3D scene.
+Prototipo Unity in prima persona realizzato per un "Programming Test for Unity Developer": un sistema di inventario completo e funzionante in cui il giocatore può raccogliere, visualizzare, usare e riorganizzare (drag & drop) gli oggetti in una scena 3D in prima persona.
 
-## Features
+## Funzionalità
 
-- **Pickup → Inventory**: walk into world items to collect them; stackable quantities are merged automatically.
-- **Two distinct item types**: a Health Potion (heals on use) and a Speed Boost (temporary movement multiplier), each with its own effect.
-- **Click to use**: left-click a slot to consume/activate its item.
-- **Drag & drop**: reorganize the inventory grid by dragging slots onto each other; dragging onto a matching stack merges it.
-- **First-person controller**: WASD/arrow movement relative to view direction, mouse-look (yaw + pitch), and jump.
-- **Cursor toggle**: `Esc` switches between mouse-look (cursor locked) and inventory interaction (cursor free).
+- **Pickup → Inventario**: cammina sugli oggetti nel mondo per raccoglierli; le quantità stackabili vengono unite automaticamente.
+- **Due tipi di item distinti**: una Pozione di Cura (cura all'uso) e uno Speed Boost (moltiplicatore di velocità temporaneo), ciascuno con il proprio effetto.
+- **Click per usare**: click sinistro su uno slot per consumare/attivare l'item contenuto.
+- **Drag & drop**: riorganizza la griglia dell'inventario trascinando gli slot uno sull'altro; trascinare su uno stack dello stesso item lo unisce.
+- **Controller in prima persona**: movimento WASD/frecce relativo alla direzione dello sguardo, visuale col mouse (orizzontale + verticale) e salto.
+- **Toggle del cursore**: `Esc` alterna tra visuale col mouse (cursore agganciato) e interazione con l'inventario (cursore libero).
 
-## Tech stack
+## Stack tecnico
 
 | | |
 |---|---|
 | Engine | Unity `6000.4.0f1` |
 | Render pipeline | Universal Render Pipeline (URP) |
-| Input | Input System package (new), no legacy `UnityEngine.Input` |
-| Language | C# |
+| Input | Input System package (nuovo), niente `UnityEngine.Input` legacy |
+| Linguaggio | C# |
 | UI | Unity UGUI (`Canvas` / `Text`) |
 
-## Getting started
+## Come iniziare
 
-1. Clone the repository:
+1. Clona il repository:
    ```bash
    git clone https://github.com/sirAlfry/Inventory.git
    ```
-2. Open the project with **Unity Hub**, version `6000.4.0f1` (or a compatible Unity 6 release).
-3. Open `Assets/Scenes/SampleScene.unity`.
-4. Press **Play**.
+2. Apri il progetto con **Unity Hub**, versione `6000.4.0f1` (o una release compatibile di Unity 6).
+3. Apri `Assets/Scenes/SampleScene.unity`.
+4. Premi **Play**.
 
-No external packages or paid assets are required beyond what ships with the project (`Packages/manifest.json`), which includes the Input System and URP.
+Non servono package esterni o asset a pagamento oltre a quelli già dichiarati in `Packages/manifest.json`, che include Input System e URP.
 
-## Controls
+## Comandi
 
-| Input | Action |
+| Input | Azione |
 |---|---|
-| `W` `A` `S` `D` / Arrow keys | Move (relative to where you're looking) |
-| Mouse | Look around (horizontal + vertical) |
-| `Space` | Jump (grounded only) |
-| Left click on a slot | Use the item in that slot |
-| Drag a slot | Move/swap/merge items in the inventory |
-| `Esc` | Toggle cursor lock (needed to interact with the inventory UI) |
+| `W` `A` `S` `D` / Frecce | Movimento (relativo alla direzione dello sguardo) |
+| Mouse | Guarda intorno (orizzontale + verticale) |
+| `Spazio` | Salto (solo da terra) |
+| Click sinistro su uno slot | Usa l'item in quello slot |
+| Trascina uno slot | Sposta/scambia/unisce gli item nell'inventario |
+| `Esc` | Blocca/sblocca il cursore (necessario per interagire con la UI dell'inventario) |
 
-## Project structure
+## Struttura del progetto
 
 ```
 Assets/
 ├── Scripts/
 │   ├── Items/
-│   │   ├── ItemData.cs              # Abstract ScriptableObject base for every item
-│   │   ├── HealthPotionItemData.cs  # Concrete item #1: heals the user
-│   │   └── SpeedBoostItemData.cs    # Concrete item #2: temporary speed multiplier
+│   │   ├── ItemData.cs              # ScriptableObject astratto, base di ogni item
+│   │   ├── HealthPotionItemData.cs  # Item concreto #1: cura chi lo usa
+│   │   └── SpeedBoostItemData.cs    # Item concreto #2: moltiplicatore di velocità temporaneo
 │   ├── Core/
-│   │   ├── InventorySlot.cs         # Plain data class: item + quantity per slot
-│   │   └── Inventory.cs             # Add/remove/use/swap logic + change event
+│   │   ├── InventorySlot.cs         # Classe dati pura: item + quantità per slot
+│   │   └── Inventory.cs             # Logica add/remove/use/swap + evento di cambiamento
 │   ├── World/
-│   │   └── ItemPickup.cs            # World pickup, adds itself to the player's Inventory on trigger
+│   │   └── ItemPickup.cs            # Pickup nel mondo, si aggiunge all'Inventory del player al trigger
 │   ├── Player/
-│   │   ├── IHealth.cs / PlayerHealth.cs             # Health contract + demo implementation
-│   │   ├── ISpeedModifiable.cs / PlayerMovement.cs  # Speed contract + movement/jump implementation
-│   │   └── MouseLook.cs                             # Mouse-look (yaw on the body, pitch on the camera) + cursor toggle
+│   │   ├── IHealth.cs / PlayerHealth.cs             # Contratto salute + implementazione demo
+│   │   ├── ISpeedModifiable.cs / PlayerMovement.cs  # Contratto velocità + movimento/salto
+│   │   └── MouseLook.cs                             # Visuale col mouse (yaw sul corpo, pitch sulla camera) + toggle cursore
 │   └── UI/
-│       ├── InventorySlotUI.cs       # Single slot: click-to-use, drag & drop
-│       └── InventoryUI.cs           # Slot grid + floating drag icon
-├── Items/       # ItemData ScriptableObject assets (Health Potion, Speed Boost)
-├── Prefabs/     # Pickup prefabs, UI slot prefab, drag icon prefab
+│       ├── InventorySlotUI.cs       # Singolo slot: click per usare, drag & drop
+│       └── InventoryUI.cs           # Griglia di slot + icona fluttuante durante il trascinamento
+├── Items/       # Asset ScriptableObject degli item (Health Potion, Speed Boost)
+├── Prefabs/     # Prefab dei pickup, dello slot UI e dell'icona di drag
 └── Scenes/
     └── SampleScene.unity
 ```
 
-## Design notes
+## Note di design
 
-- **`ItemData` is an abstract `ScriptableObject`**, with each item type as a subclass overriding `Use()`. Adding a new item later means adding a new subclass — no changes needed to `Inventory`, `ItemPickup`, or the UI (Open/Closed Principle).
-- **Effects are decoupled through interfaces** (`IHealth`, `ISpeedModifiable`) rather than referencing concrete player classes directly, so items stay reusable on any GameObject that implements the relevant contract.
-- **`InventorySlot` is a plain data class**, not a `MonoBehaviour` — easy to test, clone, and serialize for a future save system.
-- **`Inventory` exposes a change event** (`OnInventoryChanged`) instead of being called directly by the UI (Observer pattern), so multiple views could stay in sync independently.
-- **Drag & drop uses Unity's built-in `EventSystem` interfaces** (`IBeginDragHandler`, `IDragHandler`, `IDropHandler`, etc.) — no third-party plugin, fully self-contained.
+- **`ItemData` è uno `ScriptableObject` astratto**, con ogni tipo di item come sottoclasse che ridefinisce `Use()`. Aggiungere un nuovo item in futuro significa aggiungere una nuova sottoclasse — nessuna modifica a `Inventory`, `ItemPickup` o alla UI (Open/Closed Principle).
+- **Gli effetti sono disaccoppiati tramite interfacce** (`IHealth`, `ISpeedModifiable`) invece di referenziare direttamente classi concrete del player, così gli item restano riutilizzabili su qualunque GameObject che implementi il contratto richiesto.
+- **`InventorySlot` è una classe dati pura**, non un `MonoBehaviour` — facile da testare, clonare e serializzare per un futuro sistema di salvataggio.
+- **`Inventory` espone un evento di cambiamento** (`OnInventoryChanged`) invece di essere chiamato direttamente dalla UI (pattern Observer), così più viste potrebbero restare sincronizzate in autonomia.
+- **Il drag & drop usa le interfacce native dell'`EventSystem` di Unity** (`IBeginDragHandler`, `IDragHandler`, `IDropHandler`, ecc.) — nessun plugin di terze parti, completamente self-contained.
 
-## License
+## Licenza
 
-No license specified yet — all rights reserved by default until one is added.
+Nessuna licenza specificata al momento — tutti i diritti riservati di default finché non ne viene aggiunta una.
