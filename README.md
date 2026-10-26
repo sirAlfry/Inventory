@@ -81,4 +81,4 @@ Assets/
 
 ## Licenza
 
-Nessuna licenza specificata al momento — tutti i diritti riservati di default finché non ne viene aggiunta una.
+Distribuito sotto licenza **MIT** — vedi il file [`LICENSE`](LICENSE) per i dettagli.
